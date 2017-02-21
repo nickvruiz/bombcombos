@@ -1,43 +1,28 @@
+const path = require('path');
 const express = require('express');
-const bodyParser= require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const api = require('./api');
 
-const app = express();
+const SERVER = {
+	app: express(),
+	port: 3000
+};
+
+const db = (req, res, next) => {
+	mongoose.connect('mongodb://localhost:27017/bombcombos');
+	const db = mongoose.connection;
+	db.on('error', console.error.bind(console, 'connection error:'));
+	db.once('open', () => next());
+};
 
 // Middleware
-app.use(bodyParser.urlencoded({extended: true}));
+SERVER.app.use(db);
+SERVER.app.use('/api', api);
+SERVER.app.use(bodyParser.urlencoded({ extended: true }));
+SERVER.app.use(express.static(path.join(__dirname, 'build')));
 
-MongoClient.connect('mongodb://localhost:27017/bombcombos', (err, db) => {
-	if (err) {
-		console.trace(err);
-		return false;
-	}
-
-	// Get all things
-	app.get('/things', (req, res) => {
-		db.collection('things').find({}).toArray((err, data) => {
-			if (err) {
-				console.trace(err);
-				return false;
-			}
-
-			res.send(data);
-		});
-	});
-
-	// Save things
-	// app.post('/things', (req, res) => {
-		// Save some stuff
-	// });
-
-	// Update things
-	// app.put('/things', (req, res) => {
-		// Update some stuff
-	// });
-
-	// Start server
-	const SERVER_PORT = 3000;
-	app.listen(SERVER_PORT, () => {
-		console.log(`Port ${SERVER_PORT} is lit fam`);
-	});
+// Start server
+SERVER.app.listen(SERVER.port, () => {
+	console.log(`Port ${SERVER.port} is lit fam 🔥 🔥 🔥`);
 });
