@@ -27,6 +27,6 @@ MongoClient.connect('mongodb://localhost:27017/bombcombos', (err, db) => {
 	// Start server
 	const SERVER_PORT = 3000;
 	app.listen(SERVER_PORT, () => {
-		console.log(`Listening on port ${SERVER_PORT}`);
+		console.log(`Port ${SERVER_PORT} is lit fam`);
 	});
 });
