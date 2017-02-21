@@ -13,6 +13,7 @@ MongoClient.connect('mongodb://localhost:27017/bombcombos', (err, db) => {
 		return false;
 	}
 
+	// Get all things
 	app.get('/things', (req, res) => {
 		db.collection('things').find({}).toArray((err, data) => {
 			if (err) {
@@ -23,6 +24,16 @@ MongoClient.connect('mongodb://localhost:27017/bombcombos', (err, db) => {
 			res.send(data);
 		});
 	});
+
+	// Save things
+	// app.post('/things', (req, res) => {
+		// Save some stuff
+	// });
+
+	// Update things
+	// app.put('/things', (req, res) => {
+		// Update some stuff
+	// });
 
 	// Start server
 	const SERVER_PORT = 3000;
