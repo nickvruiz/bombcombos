@@ -1,5 +1,5 @@
-/build/*
 .*
 !/.eslintrc
 !/.gitignore
 /node_modules
+/build/*
