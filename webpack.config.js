@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const babelPlugins = [
 	'transform-object-rest-spread',
 	'transform-decorators-legacy',
@@ -55,6 +56,7 @@ module.exports = {
 	},
 
 	plugins: [
+		new ExtractTextPlugin('bundle.css'),
 		new HtmlWebpackPlugin({
 			hash: false,
 			inject: false,

@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const api = require('./api');
+const server = require('./server');
 
 const SERVER = {
 	app: express(),
@@ -9,7 +9,7 @@ const SERVER = {
 };
 
 // Middleware
-SERVER.app.use('/api', api);
+SERVER.app.use('/api', server);
 SERVER.app.use(bodyParser.urlencoded({ extended: true }));
 SERVER.app.use(express.static(path.join(__dirname, 'build')));
 

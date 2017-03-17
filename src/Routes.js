@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 
-// Our Application routes
+// Our application routes
 import Main from 'containers/Main';
 
 const routes = {
