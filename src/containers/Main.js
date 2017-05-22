@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 /**
  * Application wrapper, passes props to children
@@ -7,20 +7,26 @@ import { browserHistory } from 'react-router';
  */
 export default class Main extends Component {
 	static get propTypes() {
-		return {};
+		return {
+			children: PropTypes.node
+		};
 	}
-
-	constructor() {
-		super();
-		this.state = {};
-	}
-
-	componentDidMount() {
-	}
-
+	
 	render() {
 		return (
-			<div className="full-fluid">My name is Jonas</div>
+			<div className="fluid">
+				<nav className="clearfix">
+					<ul className="pull-right list-inline">
+						<li><Link to="/">Home</Link></li>
+						<li><Link to="/admin">Admin</Link></li>
+						<li><Link to="/admin/new">Add New</Link></li>
+					</ul>
+				</nav>
+
+				<div>
+					{ React.cloneElement(this.props.children, { ...this.props }) }
+				</div>
+			</div>
 		);
 	}
 }

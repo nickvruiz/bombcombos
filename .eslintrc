@@ -17,6 +17,7 @@
     "react"
   ],
   "rules": {
+    "arrow-parens": 0,
     "max-len": ["error", {
       "code": 120,
       "comments": 200,

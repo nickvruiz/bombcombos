@@ -1,14 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const babelPlugins = [
-	'transform-object-rest-spread',
-	'transform-decorators-legacy',
-	'transform-class-properties'
-];
 
 module.exports = {
-	entry: './src/Routes.js',
+	entry: path.resolve(__dirname, 'src/Routes.js'),
 
 	output: {
 		path: path.resolve(__dirname, 'build'),
@@ -16,7 +11,10 @@ module.exports = {
 	},
 
 	resolve: {
-		root: path.resolve(__dirname),
+		modules: [
+			path.resolve(__dirname),
+			'node_modules'
+		],
 		alias: {
 			containers: 'src/containers',
 			components: 'src/components',
@@ -27,30 +25,39 @@ module.exports = {
 	},
 
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /(\.jsx|\.js)$/,
-				loader: 'babel',
 				exclude: /(node_modules)/,
-				query: {
-					presets: ['es2015', 'react'],
-					plugins: babelPlugins
+				loader: 'babel-loader',
+				options: {
+					presets: [['es2015', { 'modules': false }], 'react'],
+					plugins: [
+						'transform-object-rest-spread',
+						'transform-decorators-legacy',
+						'transform-class-properties'
+					]
 				}
 			},
 			{
 				test: /\.less$/,
-				loader: 'style!css!less',
-				exclude: /(node_modules)/
+				exclude: /(node_modules)/,
+				use: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: ['css-loader', 'less-loader'],
+					publicPath: path.resolve(__dirname, 'build')
+				})
 			},
 			{
 				test: /\.png$/,
-				loader: 'url-loader?limit=100000',
-				exclude: /(node_modules)/
+				exclude: /(node_modules)/,
+				loader: 'url-loader',
+				options: { limit: '100000' }
 			},
 			{
 				test: /\.(jpg|svg)$/,
-				loader: 'file-loader',
-				exclude: /(node_modules)/
+				exclude: /(node_modules)/,
+				loader: 'file-loader'
 			}
 		]
 	},
